@@ -1,0 +1,7 @@
+{
+  "name": "Five Fog",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

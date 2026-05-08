@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -e
+
+pnpm lint
+pnpm typecheck
+
+echo "Injecting version..."
+
+pnpm run inject-version
+git add package.json five-fog/package.json

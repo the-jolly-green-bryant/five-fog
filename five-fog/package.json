@@ -1,7 +1,7 @@
 {
   "name": "five-fog",
   "private": true,
-  "version": "0.0.1",
+  "version": "2026.05.08+2a8d5b6",
   "type": "module",
   "scripts": {
     "dev": "vite",

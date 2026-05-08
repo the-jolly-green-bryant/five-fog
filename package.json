@@ -7,10 +7,12 @@
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
     "dev": "pnpm -r dev",
-    "inject-version": "node scripts/inject-version.js"
+    "inject-version": "node scripts/inject-version.js",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "0.34.6"
+    "@vitest/coverage-v8": "0.34.6",
+    "husky": "^9.1.7"
   },
   "version": "2026.05.08+2a8d5b6"
 }

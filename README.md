@@ -7,6 +7,7 @@ Sample Ionic React Frontend w/ Static Page Rendering &amp; CI/CD
 
 ```shell
 pnpm install
+pnpm exec husky init
 ```
 
 ## Running Dev Server

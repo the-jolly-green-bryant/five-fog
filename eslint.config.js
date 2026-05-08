@@ -9,7 +9,7 @@ export default [
         ignores: [
             '**/dist/**',
             '**/node_modules/**',
-            '**/coverage/**',
+            'five-fog/coverage/**',
             'data/**/**',
             'eslint.config.js',
             'scripts/inject-version.js',

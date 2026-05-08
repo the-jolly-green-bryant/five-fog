@@ -11,6 +11,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6(jsdom@22.1.0)(terser@5.47.1))
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
 
   five-fog:
     dependencies:
@@ -2233,6 +2236,11 @@ packages:
   human-signals@1.1.1:
     resolution: {integrity: sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==}
     engines: {node: '>=8.12.0'}
+
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -6055,6 +6063,8 @@ snapshots:
       - supports-color
 
   human-signals@1.1.1: {}
+
+  husky@9.1.7: {}
 
   iconv-lite@0.6.3:
     dependencies:

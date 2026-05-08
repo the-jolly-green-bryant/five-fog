@@ -1,8 +1,7 @@
 import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Menu from './components/Menu';
-import Page from './pages/Page';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,6 +32,8 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import IndexPage from "./pages/IndexPage"
+import ViewPage from "./pages/ViewPage"
 
 setupIonicReact();
 
@@ -44,11 +45,20 @@ const App: React.FC = () => {
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/folder/Inbox" />
+              <IndexPage />
             </Route>
-            <Route path="/folder/:name" exact={true}>
-              <Page />
+
+            <Route path="/pokemon/:name" exact={true}>
+              <ViewPage />
             </Route>
+
+            <Route
+                path="/type/:name"
+                exact
+                render={({ match }) => (
+                    <IndexPage filter={match.params.name} />
+                )}
+            />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

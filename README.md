@@ -22,6 +22,10 @@ pnpm run dev
 pnpm run build
 ```
 
+# References
+
+- [API Wrapper Library](https://github.com/PokeAPI/pokedex-promise-v2)
+
 # Target Features
 
 - Index, scroll to paginate, filter

@@ -1,10 +1,8 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { useParams } from 'react-router';
 
 const IndexPage: React.FC<{filter?: string}> = ({filter}) => {
 
-  const { name } = useParams<{ name: string; }>();
-
+    const title = `${filter ?? 'all'} pokemon`
   return (
     <IonPage>
       <IonHeader>
@@ -12,14 +10,14 @@ const IndexPage: React.FC<{filter?: string}> = ({filter}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>{name} - {filter}</IonTitle>
+          <IonTitle>{title}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">{name}</IonTitle>
+            <IonTitle size="large">{title}</IonTitle>
           </IonToolbar>
         </IonHeader>
       </IonContent>

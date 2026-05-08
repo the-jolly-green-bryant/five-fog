@@ -1,6 +1,6 @@
-import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Route } from 'react-router-dom';
+import {IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact} from '@ionic/react';
+import {IonReactRouter} from '@ionic/react-router';
+import {Route} from 'react-router-dom';
 import Menu from './components/Menu';
 
 /* Core CSS required for Ionic components to work properly */
@@ -25,7 +25,6 @@ import '@ionic/react/css/display.css';
  * For more info, please see:
  * https://ionicframework.com/docs/theming/dark-mode
  */
-
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
 import '@ionic/react/css/palettes/dark.system.css';
@@ -38,32 +37,32 @@ import ViewPage from "./pages/ViewPage"
 setupIonicReact();
 
 const App: React.FC = () => {
-  return (
-    <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <IndexPage />
-            </Route>
+    return (
+        <IonApp>
+            <IonReactRouter>
+                <IonSplitPane contentId="main">
+                    <Menu/>
+                    <IonRouterOutlet id="main">
+                        <Route path="/" exact={true}>
+                            <IndexPage/>
+                        </Route>
 
-            <Route path="/pokemon/:name" exact={true}>
-              <ViewPage />
-            </Route>
+                        <Route path="/pokemon/:name" exact={true}>
+                            <ViewPage/>
+                        </Route>
 
-            <Route
-                path="/type/:name"
-                exact
-                render={({ match }) => (
-                    <IndexPage filter={match.params.name} />
-                )}
-            />
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
-    </IonApp>
-  );
+                        <Route
+                            path="/type/:name"
+                            exact
+                            render={({match}) => (
+                                <IndexPage filter={match.params.name}/>
+                            )}
+                        />
+                    </IonRouterOutlet>
+                </IonSplitPane>
+            </IonReactRouter>
+        </IonApp>
+    );
 };
 
 export default App;

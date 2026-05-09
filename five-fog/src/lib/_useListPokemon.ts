@@ -1,33 +1,56 @@
-import { useEffect, useState } from 'react';
-import { Pokemon } from './types';
+import {useEffect, useRef, useState} from 'react'
+import {Pokemon} from './types'
+import {PokemonClient} from 'pokenode-ts'
+
+const api = new PokemonClient()
+
+type PokemonListResponse = {
+    results: Pokemon[]
+    next: string | null
+}
 
 export const useListPokemon = () => {
-    const [list, setList] = useState<Pokemon[] | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+    const [list, setList] = useState<Pokemon[]>([])
+    const [next, setNext] = useState<string | null>('https://pokeapi.co/api/v2/pokemon')
+    const [error, setError] = useState<Error | null>(null)
+
+    const loading = useRef(false)
+
+    const loadMore = async () => {
+        if (!next || loading.current) {
+            return
+        }
+
+
+        loading.current = true
+        setError(null)
+
+        const url = new URL(next)
+        const offset = Number(url.searchParams.get('offset') ?? 0)
+        const limit = Number(url.searchParams.get('limit') ?? 20)
+        const data: PokemonListResponse = await api.listPokemons(offset, limit)
+
+        if (!data) {
+            return setError(new Error('Failed to load pokemon'))
+        }
+
+        console.log('data', data)
+
+        setNext(data.next)
+        setList((previous) => [
+            ...previous,
+            ...data.results,
+        ])
+        loading.current = false
+    }
+
 
     useEffect(() => {
-        const loadPokemon = async () => {
-            setLoading(true);
-            setError(null);
+        void loadMore()
+    }, [])
 
-            const response = await fetch(
-                'https://pokeapi.co/api/v2/pokemon'
-            );
-
-            if (!response.ok) {
-                setList(null)
-                setError(new Error('Failed to load pokemon'))
-                return
-            }
-
-            const data = await response.json();
-            setList(data);
-            setLoading(false);
-        };
-
-        void loadPokemon();
-    }, []);
-
-    return {list, loading, error};
+    return {
+        list, loading: loading.current, error, loadMore,
+        hasMore: next !== null,
+    }
 }

@@ -23,6 +23,7 @@
     "@types/react-router-dom": "^5.3.3",
     "ionicons": "^7.4.0",
     "pokedex-promise-v2": "^4.2.3",
+    "pokenode-ts": "^1.20.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router": "^5.3.4",

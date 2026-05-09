@@ -11,15 +11,16 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/react'
-import {useListPokemon} from '../lib/api'
+import {useListPokemon, usePokemonByType} from '../lib/api'
 import {useState} from 'react'
 import IndexItem from '../components/IndexItem'
 
 const IndexPage: React.FC<{ kind?: string }> = ({kind}) => {
     const [search, setSearch] = useState('')
     const title = `${kind ?? 'all'} pokemon`
-    // TODO - Filtering
-    const {list, loading, loadMore} = useListPokemon({search})
+    const allPokemon = useListPokemon({search})
+    const typedPokemon = usePokemonByType({name: kind ?? '', search})
+    const {list, loading, loadMore} = kind ? typedPokemon : allPokemon
 
     const onSearch = (event: Event) => {
         const query = (event.target as HTMLIonSearchbarElement)?.value?.toLowerCase()

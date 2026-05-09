@@ -1,5 +1,6 @@
 export type Pokemon = {
-    name: string;
+    name: string
+    id: number
     sprites: {
         other: {
             'official-artwork': {
@@ -7,4 +8,13 @@ export type Pokemon = {
             }
         }
     }
+    types: {
+        type: {
+            name: string
+        }
+    }[]
+}
+
+export type Kind = {
+    name: string
 }

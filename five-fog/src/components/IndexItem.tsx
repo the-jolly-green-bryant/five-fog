@@ -26,7 +26,12 @@ const IndexItem: React.FC<ContainerProps> = ({name}) => {
                 <img alt={display.alt} src={display.image}/>
             </IonAvatar>
 
-            <IonLabel>{display.name}</IonLabel>
+            <IonLabel>
+                <h1>{display.name}</h1>
+                {pokemon && (
+                    <p>#{pokemon.id} - {pokemon.types.map(k => k.type.name).join(', ')}</p>
+                )}
+            </IonLabel>
         </IonItem>
     )
 }

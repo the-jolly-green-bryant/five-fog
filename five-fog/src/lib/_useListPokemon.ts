@@ -1,12 +1,11 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {Pokemon} from './types'
 import POKEMON_LIST from '../index/master.json'
 
 // Since we're utilizing the static list of Pokemon for search and filtering, we're
 //  doing a little bit of hoodoo here to emulate an API integration.
 
 export const useListPokemon = ({search = ''}: { search: string }) => {
-    const [list, setList] = useState<Pokemon[]>([])
+    const [list, setList] = useState<typeof POKEMON_LIST>([])
     const [next, setNext] = useState<number | null>(0)
     const [error, setError] = useState<Error | null>(null)
 

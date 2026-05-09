@@ -34,8 +34,6 @@ export const useListPokemon = () => {
             return setError(new Error('Failed to load pokemon'))
         }
 
-        console.log('data', data)
-
         setNext(data.next)
         setList((previous) => [
             ...previous,

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {Pokemon} from './types'
 import POKEMON_LIST from '../index/master.json'
 
@@ -15,7 +15,7 @@ export const useListPokemon = ({search = ''}: { search: string }) => {
 
     const normalizedSearch = search.trim().toLowerCase()
 
-    const loadMore = async () => {
+    const _loadMore = async () => {
         if (next === null || loading.current) {
             return
         }
@@ -34,15 +34,13 @@ export const useListPokemon = ({search = ''}: { search: string }) => {
         loading.current = false
     }
 
+    const loadMore = useCallback(_loadMore, [next])
 
     useEffect(() => {
         setList([])
         setNext(0)
-    }, [normalizedSearch])
-
-    useEffect(() => {
         void loadMore()
-    }, [loadMore])
+    }, [normalizedSearch])
 
     return {
         list, loading: loading.current, error, loadMore,

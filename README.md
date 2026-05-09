@@ -31,6 +31,7 @@ pnpm run build
 - CI/CD
 - Static page rendering
 - Accessibility feature
+- Search - More robust
 
 # Topics To Discuss
 
@@ -38,6 +39,22 @@ pnpm run build
 - Initial setups, planning good practice early
 - Framework selection
 - API - A little cheating, knowing static rendering.
+
+# Compromises
+
+## Unit Testing
+
+Typically with a more real-world project I would have a strong foundation of testing,
+and would give strong consideration to test-driven development. Given the nature of this
+project and the simplicity of features, I opted to forgo testing in lieu of greater
+feature depth.
+
+## Search
+
+The provided API does not feature any significant form of search or filtering. To
+incorporate more robust and maintainable search functionality, I opted to leverage a
+static 'master' list of Pokemon. This seemed a reasonable compromise as the rate that
+new Pokemon are released is very low.
 
 # References
 

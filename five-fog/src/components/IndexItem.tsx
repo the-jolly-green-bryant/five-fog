@@ -1,4 +1,5 @@
-import './IndexItem.scss';
+import './IndexItem.scss'
+import {IonItem} from '@ionic/react'
 
 interface ContainerProps {
     name: string;
@@ -6,12 +7,8 @@ interface ContainerProps {
 
 const IndexItem: React.FC<ContainerProps> = ({name}) => {
     return (
-        <div id="container">
-            <strong>{name}</strong>
-            <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI
-                Components</a></p>
-        </div>
-    );
-};
+        <IonItem>{name}</IonItem>
+    )
+}
 
-export default IndexItem;
+export default IndexItem

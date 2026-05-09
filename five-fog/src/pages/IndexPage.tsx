@@ -4,6 +4,7 @@ import {
     IonHeader,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
+    IonList,
     IonMenuButton,
     IonPage,
     IonSearchbar,
@@ -12,12 +13,13 @@ import {
 } from '@ionic/react'
 import {useListPokemon} from '../lib/api'
 import {useState} from 'react'
+import IndexItem from '../components/IndexItem'
 
 const IndexPage: React.FC<{ kind?: string }> = ({kind}) => {
     const [search, setSearch] = useState('')
     const title = `${kind ?? 'all'} pokemon`
     // TODO - Filtering
-    const {list, error, loading, loadMore, hasMore} = useListPokemon({search})
+    const {list, loading, loadMore} = useListPokemon({search})
 
     const onSearch = (event: Event) => {
         const query = (event.target as HTMLIonSearchbarElement)?.value?.toLowerCase()
@@ -37,24 +39,22 @@ const IndexPage: React.FC<{ kind?: string }> = ({kind}) => {
 
             <IonContent fullscreen>
                 <IonSearchbar debounce={1000} onIonInput={onSearch}></IonSearchbar>
-                <pre>
-                    Error: {error?.message}
-                    Loading: {loading}
-                    Pokemon: {JSON.stringify(list, null, 4)}
-                </pre>
-                {loading && <span>Loading</span>}
-                {/*    TODO - If we reach bottom and hasMore, call load more */}
+
+                <IonList>
+                    {list && list.map((k) => (
+                        <IndexItem name={k.name} key={'pokemon_' + k.name}/>
+                    ))}
+                </IonList>
 
                 <IonInfiniteScroll
-                    disabled={!hasMore || loading}
+                    disabled={loading}
                     onIonInfinite={async (event) => {
                         await loadMore()
                         await event.target.complete()
                     }}
                 >
-                    <IonInfiniteScrollContent
-                        loadingText="Loading more Pokémon..."
-                    />
+                    <IonInfiniteScrollContent loadingText="Loading..."
+                                              loadingSpinner="bubbles"></IonInfiniteScrollContent>
                 </IonInfiniteScroll>
             </IonContent>
         </IonPage>

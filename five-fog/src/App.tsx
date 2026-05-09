@@ -52,10 +52,10 @@ const App: React.FC = () => {
                         </Route>
 
                         <Route
-                            path="/type/:name"
+                            path="/type/:kind"
                             exact
                             render={({match}) => (
-                                <IndexPage filter={match.params.name}/>
+                                <IndexPage kind={match.params.kind}/>
                             )}
                         />
                     </IonRouterOutlet>

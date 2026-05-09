@@ -1,8 +1,10 @@
 import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react';
+import {useListPokemon} from "../lib/api"
 
-const IndexPage: React.FC<{ filter?: string }> = ({filter}) => {
+const IndexPage: React.FC<{ kind?: string }> = ({kind}) => {
+    const title = `${kind ?? 'all'} pokemon`
+    const {list, error, loading} = useListPokemon(kind)
 
-    const title = `${filter ?? 'all'} pokemon`
     return (
         <IonPage>
             <IonHeader>
@@ -15,11 +17,11 @@ const IndexPage: React.FC<{ filter?: string }> = ({filter}) => {
             </IonHeader>
 
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">{title}</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
+                <pre>
+                    Error: {error?.message}
+                    Loading: {loading}
+                    Pokemon: {JSON.stringify(list, null, 4)}
+                </pre>
             </IonContent>
         </IonPage>
     );

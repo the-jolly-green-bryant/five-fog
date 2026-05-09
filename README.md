@@ -56,6 +56,10 @@ incorporate more robust and maintainable search functionality, I opted to levera
 static 'master' list of Pokemon. This seemed a reasonable compromise as the rate that
 new Pokemon are released is very low.
 
+## Regional and Gender Variants
+
+There are Pokemon (such as Nidoran and Darmanitan) that feature unique variants
+
 # References
 
 ## [PokeApi](https://github.com/PokeAPI/pokeapi/)

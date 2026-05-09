@@ -1,43 +1,31 @@
 import {useEffect, useRef, useState} from 'react'
 import {Pokemon} from './types'
-import {PokemonClient} from 'pokenode-ts'
+import POKEMON_LIST from '../index/master.json'
 
-const api = new PokemonClient()
-
-type PokemonListResponse = {
-    results: Pokemon[]
-    next: string | null
-}
+// Since we're utilizing the static list of Pokemon for search and filtering, we're
+//  doing a little bit of hoodoo here to emulate an API integration.
 
 export const useListPokemon = () => {
     const [list, setList] = useState<Pokemon[]>([])
-    const [next, setNext] = useState<string | null>('https://pokeapi.co/api/v2/pokemon')
+    const [next, setNext] = useState<number | null>(0)
     const [error, setError] = useState<Error | null>(null)
 
     const loading = useRef(false)
+    const limit = 20
 
     const loadMore = async () => {
-        if (!next || loading.current) {
+        if (next === null || loading.current) {
             return
         }
 
-
         loading.current = true
         setError(null)
+        const data = POKEMON_LIST.slice(next, next + limit)
 
-        const url = new URL(next)
-        const offset = Number(url.searchParams.get('offset') ?? 0)
-        const limit = Number(url.searchParams.get('limit') ?? 20)
-        const data: PokemonListResponse = await api.listPokemons(offset, limit)
-
-        if (!data) {
-            return setError(new Error('Failed to load pokemon'))
-        }
-
-        setNext(data.next)
+        setNext(data.length == limit ? next + limit : null)
         setList((previous) => [
             ...previous,
-            ...data.results,
+            ...data,
         ])
         loading.current = false
     }
@@ -45,7 +33,7 @@ export const useListPokemon = () => {
 
     useEffect(() => {
         void loadMore()
-    }, [])
+    }, [loadMore])
 
     return {
         list, loading: loading.current, error, loadMore,

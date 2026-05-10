@@ -6,9 +6,15 @@ export const getPokemon = async (name: string) => {
         .toLowerCase()
         .replaceAll(/[^a-zA-Z0-9\- ]/g, '')
         .replaceAll(/\s+/g, '-')
-    return fetch(
+    const r = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${normalizedName}`,
     )
+    const data = await r.json()
+    const r_species = await fetch(data.species!.url!)
+    return {
+        ...data,
+        species: await r_species.json()
+    }
 }
 
 export const usePokemon = (name: string | null) => {
@@ -25,16 +31,8 @@ export const usePokemon = (name: string | null) => {
         const loadPokemon = async () => {
             setLoading(true)
             setError(null)
-            
-            const response = await getPokemon(name)
 
-            if (!response.ok) {
-                setPokemon(undefined)
-                setError(new Error('Failed to load pokemon'))
-                return
-            }
-
-            const data = await response.json()
+            const data = await getPokemon(name)
             setPokemon(data)
             setLoading(false)
         }

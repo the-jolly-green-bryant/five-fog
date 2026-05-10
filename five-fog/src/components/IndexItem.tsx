@@ -22,7 +22,7 @@ const IndexItem: React.FC<ContainerProps> = ({name}) => {
 
     return (
         <IonItem detail={true} href={`/pokemon/${display.name}`}>
-            <IonAvatar>
+            <IonAvatar style={{backgroundColor: pokemon?.species.color.name ?? 'transparent'}}>
                 <img alt={display.alt} src={display.image}/>
             </IonAvatar>
 

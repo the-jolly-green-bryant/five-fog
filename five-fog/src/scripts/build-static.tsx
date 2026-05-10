@@ -121,8 +121,7 @@ const main = async () => {
 
     for (const {name} of POKEMON_INDEX) {
         console.log(`Grabbing ${name}`)
-        const r = await getPokemon(name)
-        const pokemon = await r.json()
+        const pokemon = await getPokemon(name)
         pokemon && (await makeViewPages([pokemon], render, template))
     }
 

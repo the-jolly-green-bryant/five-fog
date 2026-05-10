@@ -30,9 +30,10 @@ pnpm run build
 
 - View page
 - Filter by click type
-- Accessibility feature
 - Search - More robust
 - Meta - more relevant meta
+- Update readme
+- Ionic theme
 
 # Topics To Discuss
 
@@ -49,6 +50,12 @@ Typically, with a more real-world project I would have a strong foundation of te
 and would give strong consideration to test-driven development. Given the nature of this
 project and the simplicity of features, I opted to forgo testing in lieu of greater
 feature depth.
+
+## Error Handling on PokeAPI
+
+As the project got long-in-the-ear, I opted to jettison error handling on PokeAPI calls
+and naively assume they return valid results. This is a fairly safe assumption, but
+obviously we'd prefer proper error handling.
 
 ## Search
 

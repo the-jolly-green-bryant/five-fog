@@ -1,4 +1,16 @@
-import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react'
+import {
+    IonAvatar,
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonMenuButton,
+    IonPage,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react'
 import {useParams} from 'react-router'
 import {usePokemon} from '../lib/api'
 import {Pokemon} from '../lib/types'
@@ -15,7 +27,7 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
 
     const {name} = useParams<{ name: string; }>()
     const use = usePokemon(name)
-    const {pokemon, error, loading} = staticData ?? use
+    const {pokemon} = staticData ?? use
 
     return (
         <>
@@ -52,17 +64,42 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
                     <IonToolbar>
                         <IonButtons slot="start">
                             <IonMenuButton/>
+                            <IonButton href="/">home</IonButton>
                         </IonButtons>
+
                         <IonTitle>{name}</IonTitle>
+
+                        <IonButtons slot="end">
+                            <IonButton>prev</IonButton>
+                            <IonButton>next</IonButton>
+                        </IonButtons>
                     </IonToolbar>
                 </IonHeader>
 
                 <IonContent fullscreen>
-                    <pre>
-                    Error: {error?.message}
-                        Loading: {loading}
-                        Pokemon: {JSON.stringify(pokemon, null, 4)}
-                </pre>
+                    <IonItem detail={false}>
+                        <IonAvatar style={{backgroundColor: pokemon?.species.color.name ?? 'transparent'}}>
+                            <img alt={`official artwork for the pokemon ${pokemon?.name ?? name}`}
+                                 src={pokemon?.sprites.other['official-artwork'].front_default ?? 'https://placehold.co/400'}/>
+                        </IonAvatar>
+
+                        <IonLabel>
+                            <h1>{pokemon?.name ?? name}</h1>
+                            <p>#{pokemon?.id ?? '??'} - {pokemon?.species.genera.find(k => k.language.name == 'en')?.genus ?? '??'}</p>
+                        </IonLabel>
+                    </IonItem>
+
+                    {pokemon && (
+                        <IonItem>
+                            <p>{pokemon.species.flavor_text_entries.filter(k => k.language.name == 'en').at(0)?.flavor_text}</p>
+                        </IonItem>
+                    )}
+
+                    {pokemon && pokemon.types.map((k, idx) => (
+                        <IonItem href={`/type/${k.type.name}`} detail={true} key={`type_${idx}`}>
+                            {k.type.name}
+                        </IonItem>
+                    ))}
                 </IonContent>
             </IonPage>
         </>

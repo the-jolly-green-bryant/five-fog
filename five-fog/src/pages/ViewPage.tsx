@@ -18,24 +18,54 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
     const {pokemon, error, loading} = staticData ?? use
 
     return (
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonMenuButton/>
-                    </IonButtons>
-                    <IonTitle>{name}</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+        <>
+            {pokemon && <>
+                <title>{`${pokemon.name} | Five Fog Pokédex`}</title>
 
-            <IonContent fullscreen>
-                <pre>
+                <meta
+                    name="description"
+                    content={`${pokemon.name} Pokémon details, stats, types, and information.`}
+                />
+
+                <meta
+                    property="og:title"
+                    content={`${pokemon.name} | Five Fog Pokédex`}
+                />
+
+                <meta
+                    property="og:description"
+                    content={`${pokemon.name} Pokémon details and information.`}
+                />
+
+                <link
+                    rel="canonical"
+                    href={`https://five-fog.bryantjames.com/pokemon/${pokemon.name}`}
+                />
+
+                <meta property="og:image"
+                      content={pokemon.sprites.other['official-artwork'].front_default || 'https://placehold.co/400'}/>
+            </>
+            }
+
+            <IonPage>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonMenuButton/>
+                        </IonButtons>
+                        <IonTitle>{name}</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent fullscreen>
+                    <pre>
                     Error: {error?.message}
-                    Loading: {loading}
-                    Pokemon: {JSON.stringify(pokemon, null, 4)}
+                        Loading: {loading}
+                        Pokemon: {JSON.stringify(pokemon, null, 4)}
                 </pre>
-            </IonContent>
-        </IonPage>
+                </IonContent>
+            </IonPage>
+        </>
     )
 }
 

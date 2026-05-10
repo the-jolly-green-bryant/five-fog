@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url'
 import POKEMON_INDEX from '../index/master.json'
 import {Pokemon} from '../lib/types'
 import {getPokemon} from '../lib/api'
+import {HelmetServerState} from 'react-helmet-async'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -20,9 +21,26 @@ type SitemapEntry = {
 
 const sitemap = new Map<string, SitemapEntry>()
 
+const extractHeadTags = (html: string) => {
+    const tags: string[] = []
+
+    const stripped = html.replace(
+        /<(title|meta|link)\b[^>]*>.*?<\/\1>|<(meta|link)\b[^>]*\/?>/gis,
+        (match) => {
+            tags.push(match)
+            return ''
+        }
+    )
+
+    return {
+        head: tags.join('\n'),
+        body: stripped,
+    }
+}
+
 const makeViewPages = async (
     data: Pokemon[],
-    render: (arg0: string, arg1: unknown) => string,
+    render: (arg0: string, arg1: unknown) => { html: string, helmet: HelmetServerState },
     template: string
 ) => {
     for (const pokemon of data) {
@@ -33,11 +51,12 @@ const makeViewPages = async (
             loading: false
         }
 
-        const inner = render(`/pokemon/${_in.name}`, _in)
-        const html = template.replace(
-            '<div id="root"></div>',
-            `<div id="root">${inner}</div>`
-        )
+        const {html: inner} = render(`/pokemon/${_in.name}`, _in)
+        const {head, body} = extractHeadTags(inner)
+
+        const html = template
+            .replace('</head>', `${head}\n</head>`)
+            .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
 
         const outFile = path.join(distPath, 'pokemon', _in.name, 'index.html')
         await fs.mkdir(path.dirname(outFile), {recursive: true})

@@ -23,15 +23,16 @@ pnpm run dev
 pnpm run build
 ```
 
+> Note: Production builds should be run through pnpm to ensure that all static files
+> are included with the deliverable.
+
 # Target Features
 
-- Index, scroll to paginate, filter
 - View page
 - Filter by click type
-- CI/CD
-- Static page rendering
 - Accessibility feature
 - Search - More robust
+- Meta - more relevant meta
 
 # Topics To Discuss
 
@@ -44,7 +45,7 @@ pnpm run build
 
 ## Unit Testing
 
-Typically with a more real-world project I would have a strong foundation of testing,
+Typically, with a more real-world project I would have a strong foundation of testing,
 and would give strong consideration to test-driven development. Given the nature of this
 project and the simplicity of features, I opted to forgo testing in lieu of greater
 feature depth.

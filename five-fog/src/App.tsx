@@ -34,6 +34,7 @@ import './theme/variables.css'
 import IndexPage from './pages/IndexPage'
 import ViewPage, {ViewPageProps} from './pages/ViewPage'
 import {MemoryRouter} from 'react-router'
+import {HelmetProvider} from 'react-helmet-async'
 
 setupIonicReact()
 
@@ -44,30 +45,32 @@ const App: React.FC<{
     initialUrl?: string
     initialData?: unknown
 }> = ({initialUrl, initialData}) => (
-    <IonApp>
-        <Router {...(isServer ? {initialEntries: [initialUrl ?? '/']} : {})}>
-            <IonSplitPane contentId="main">
-                <Menu/>
-                <IonRouterOutlet id="main">
-                    <Route path="/" exact={true}>
-                        <IndexPage/>
-                    </Route>
+    <HelmetProvider>
+        <IonApp>
+            <Router {...(isServer ? {initialEntries: [initialUrl ?? '/']} : {})}>
+                <IonSplitPane contentId="main">
+                    <Menu/>
+                    <IonRouterOutlet id="main">
+                        <Route path="/" exact={true}>
+                            <IndexPage/>
+                        </Route>
 
-                    <Route path="/pokemon/:name" exact={true}>
-                        <ViewPage staticData={initialData as ViewPageProps['staticData']}/>
-                    </Route>
+                        <Route path="/pokemon/:name" exact={true}>
+                            <ViewPage staticData={initialData as ViewPageProps['staticData']}/>
+                        </Route>
 
-                    <Route
-                        path="/type/:kind"
-                        exact
-                        render={({match}) => (
-                            <IndexPage kind={match.params.kind}/>
-                        )}
-                    />
-                </IonRouterOutlet>
-            </IonSplitPane>
-        </Router>
-    </IonApp>
+                        <Route
+                            path="/type/:kind"
+                            exact
+                            render={({match}) => (
+                                <IndexPage kind={match.params.kind}/>
+                            )}
+                        />
+                    </IonRouterOutlet>
+                </IonSplitPane>
+            </Router>
+        </IonApp>
+    </HelmetProvider>
 )
 
 

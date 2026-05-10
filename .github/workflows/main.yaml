@@ -1,0 +1,29 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v6
+
+      - name: Setup project
+        uses: ./.github/actions/setup-dependencies
+
+      - name: Build Website
+        run: cd five-fog && pnpm run build
+
+      - name: Deploy API
+        run: pnpm wrangler pages deploy five-fog/dist --project-name=five-fog
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

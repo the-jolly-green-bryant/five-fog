@@ -1,11 +1,21 @@
-import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react';
-import {useParams} from 'react-router';
-import {usePokemon} from "../lib/api"
+import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react'
+import {useParams} from 'react-router'
+import {usePokemon} from '../lib/api'
+import {Pokemon} from '../lib/types'
 
-const ViewPage: React.FC = () => {
+export type ViewPageProps = {
+    staticData?: {
+        pokemon: Pokemon,
+        error: undefined,
+        loading: boolean
+    }
+}
+
+const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
 
     const {name} = useParams<{ name: string; }>()
-    const {pokemon, error, loading} = usePokemon(name)
+    const use = usePokemon(name)
+    const {pokemon, error, loading} = staticData ?? use
 
     return (
         <IonPage>
@@ -29,4 +39,4 @@ const ViewPage: React.FC = () => {
     )
 }
 
-export default ViewPage;
+export default ViewPage

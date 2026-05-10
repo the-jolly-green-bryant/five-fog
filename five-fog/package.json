@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && tsx src/scripts/build-static.tsx",
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test": "vitest run --coverage",
@@ -21,7 +21,7 @@
     "@ionic/react-router": "^8.5.0",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
-    "ionicons": "^7.4.0",
+    "ionicons": "7",
     "pokedex-promise-v2": "^4.2.3",
     "pokenode-ts": "^1.20.0",
     "react": "19.0.0",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "8.3.3",
+    "@eslint/js": "^10.0.1",
     "@testing-library/dom": ">=7.21.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^16.2.0",
@@ -51,7 +52,8 @@
     "typescript": "~5.9.0",
     "typescript-eslint": "^8.24.0",
     "vite": "^5.0.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "wrangler": "^4.90.0"
   },
   "description": "Sample Ionic React Frontend w/ Static Page Rendering & CI/CD"
 }

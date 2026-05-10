@@ -14,5 +14,8 @@ export default defineConfig({
         globals: true,
         environment: 'jsdom',
         setupFiles: './src/setupTests.ts',
-    }
+    },
+    ssr: {
+        noExternal: ['@ionic/react', '@ionic/react-router', '@ionic/core', 'ionicons'],
+    },
 })

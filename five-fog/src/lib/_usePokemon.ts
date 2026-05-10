@@ -1,6 +1,16 @@
 import {useEffect, useState} from 'react'
 import {Pokemon} from './types'
 
+export const getPokemon = async (name: string) => {
+    const normalizedName = name
+        .toLowerCase()
+        .replaceAll(/[^a-zA-Z0-9\- ]/g, '')
+        .replaceAll(/\s+/g, '-')
+    return fetch(
+        `https://pokeapi.co/api/v2/pokemon/${normalizedName}`,
+    )
+}
+
 export const usePokemon = (name: string | null) => {
     const [pokemon, setPokemon] = useState<Pokemon>()
     const [loading, setLoading] = useState(false)
@@ -15,14 +25,8 @@ export const usePokemon = (name: string | null) => {
         const loadPokemon = async () => {
             setLoading(true)
             setError(null)
-
-            const normalizedName = name
-                .toLowerCase()
-                .replaceAll(/[^a-zA-Z0-9\- ]/g, '')
-                .replaceAll(/\s+/g, '-')
-            const response = await fetch(
-                `https://pokeapi.co/api/v2/pokemon/${normalizedName}`,
-            )
+            
+            const response = await getPokemon(name)
 
             if (!response.ok) {
                 setPokemon(undefined)

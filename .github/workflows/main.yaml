@@ -33,7 +33,7 @@ jobs:
         run: cd five-fog && pnpm run build
 
       - name: Build Android
-        run: cd five-fog && pnpm run build:apk:release
+        run: cd five-fog && pnpm run build:apk
 
       - name: Deploy API
         run: pnpm wrangler pages deploy five-fog/dist --project-name=five-fog

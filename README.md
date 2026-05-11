@@ -5,7 +5,7 @@ Sample Ionic React Frontend w/ Static Page Rendering &amp; CI/CD
 Demos available here:
 
 - [Website](https://five-fog.bryantjames.com/)
-- [Android App]()
+- [Android App](https://github.com/the-jolly-green-bryant/five-fog/releases)
 
 # Usage
 

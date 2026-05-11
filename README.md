@@ -28,16 +28,22 @@ pnpm run build
 
 # Target Features
 
-- Inline javascript
 - Update readme
-- Ionic theme
+- Release android apk
 
 # Topics To Discuss
 
+- Main Driving Features
+    - Strong search functionality
+    - cross platform
+    - static website rendering (automatically builds 1370 pages)
+    - Language selection
 - Approach, showcasing that end-to-end thinking, limited testing in lieu of features
 - Initial setups, planning good practice early
 - Framework selection
-- API - A little cheating, knowing static rendering.
+- Devops selection
+- Going through considerations
+    - API - A little cheating, knowing static rendering.
 
 # Would Do
 

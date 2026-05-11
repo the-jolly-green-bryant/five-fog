@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Five Fog</string>
+    <string name="title_activity_main">Five Fog</string>
+    <string name="package_name">com.bryantjames.fivefog</string>
+    <string name="custom_url_scheme">com.bryantjames.fivefog</string>
+</resources>

@@ -17,13 +17,30 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v6
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
       - name: Setup project
         uses: ./.github/actions/setup-dependencies
 
       - name: Build Website
         run: cd five-fog && pnpm run build
 
+      - name: Build Android
+        run: cd five-fog && pnpm run build:apk:release
+
       - name: Deploy API
         run: pnpm wrangler pages deploy five-fog/dist --project-name=five-fog
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Upload GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            five-fog/android/app/build/outputs/apk/release/*.apk

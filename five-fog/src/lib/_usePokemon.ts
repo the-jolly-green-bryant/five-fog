@@ -11,13 +11,13 @@ export const getPokemon = async (name: string): Promise<Pokemon> => {
         .replaceAll(/\s+/g, '-')
     const storageKey = `${STORAGE_PREFIX}${normalizedName}`
 
-    const saved = localStorage.getItem(storageKey)
+    const saved = typeof window === 'undefined' ? undefined : localStorage.getItem(storageKey)
     if (saved) {
         return JSON.parse(saved)
     }
 
     const pokemon = await fetchPokemon(normalizedName)
-    localStorage.setItem(storageKey, JSON.stringify(pokemon))
+    typeof window !== 'undefined' && localStorage.setItem(storageKey, JSON.stringify(pokemon))
 
     return pokemon
 }

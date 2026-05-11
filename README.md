@@ -52,6 +52,9 @@ pnpm run build
     - Localize meta
     - Search by localized name
     - Fallback to English
+- Content corrections
+    - Mega evolutions have the correct id for API, but nopt the correct numerical representation as it apepars in the
+      game
 
 # Compromises
 

@@ -10,6 +10,8 @@ import {HelmetServerState} from 'react-helmet-async'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const distPath = path.join(__dirname, '../..', 'dist')
+const criticalCssPath = path.join(__dirname, 'critical.css')
+const criticalCss = await fs.readFile(criticalCssPath, 'utf8')
 const BUILD_TIME = new Date().toISOString()
 
 type SitemapEntry = {
@@ -57,6 +59,10 @@ const makeViewPages = async (
         const html = template
             .replace('</head>', `${head}\n</head>`)
             .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
+            .replace(
+                '</head>',
+                `<style>${criticalCss}</style>\n</head>`
+            )
 
         const outFile = path.join(distPath, 'pokemon', _in.name, 'index.html')
         await fs.mkdir(path.dirname(outFile), {recursive: true})

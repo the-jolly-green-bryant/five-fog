@@ -31,11 +31,6 @@ pnpm run build
 > Note: Production builds should be run through pnpm to ensure that all static files
 > are included with the deliverable.
 
-# Target Features
-
-- Update readme
-- Release android apk
-
 # Topics To Discuss
 
 - Main Driving Features
@@ -66,6 +61,9 @@ pnpm run build
 - Content corrections
     - Mega evolutions have the correct id for API, but nopt the correct numerical representation as it apepars in the
       game
+- Android app
+    - There are stylign consideraitons (such as status bar overlapping app) that need to be addressed
+    - This is very much jsut a proof of concept (it can compile into an apk) than an actual ready product
 
 # Compromises
 

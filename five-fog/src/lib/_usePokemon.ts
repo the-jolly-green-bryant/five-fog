@@ -1,19 +1,30 @@
 import {useEffect, useState} from 'react'
 import {Pokemon} from './types'
+import POKEMON_LIST from '../index/master.json'
 
 export const getPokemon = async (name: string) => {
     const normalizedName = name
         .toLowerCase()
         .replaceAll(/[^a-zA-Z0-9\- ]/g, '')
         .replaceAll(/\s+/g, '-')
+
+    // Fetch pokemon data from API
     const r = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${normalizedName}`,
     )
     const data = await r.json()
     const r_species = await fetch(data.species!.url!)
+
+    // Reference pagination from local index file
+    const index = POKEMON_LIST.findIndex(i => i.name === normalizedName)
+    const prev = POKEMON_LIST.at(index - 1)
+    const next = POKEMON_LIST.at(index + 1 - POKEMON_LIST.length)
+
     return {
         ...data,
-        species: await r_species.json()
+        species: await r_species.json(),
+        prev,
+        next
     }
 }
 

@@ -4,6 +4,7 @@ import {
     IonButtons,
     IonContent,
     IonHeader,
+    IonIcon,
     IonItem,
     IonLabel,
     IonMenuButton,
@@ -14,6 +15,7 @@ import {
 import {useParams} from 'react-router'
 import {usePokemon} from '../lib/api'
 import {Pokemon} from '../lib/types'
+import {chevronBack, chevronForward} from 'ionicons/icons'
 
 export type ViewPageProps = {
     staticData?: {
@@ -70,8 +72,12 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
                         <IonTitle>{name}</IonTitle>
 
                         <IonButtons slot="end">
-                            <IonButton>prev</IonButton>
-                            <IonButton>next</IonButton>
+                            <IonButton href={`/pokemon/${pokemon?.prev.name}`}>
+                                <IonIcon icon={chevronBack} aria-label="previous"></IonIcon>
+                            </IonButton>
+                            <IonButton href={`/pokemon/${pokemon?.next.name}`}>
+                                <IonIcon icon={chevronForward} aria-label="next"></IonIcon>
+                            </IonButton>
                         </IonButtons>
                     </IonToolbar>
                 </IonHeader>

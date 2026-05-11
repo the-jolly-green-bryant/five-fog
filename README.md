@@ -28,9 +28,9 @@ pnpm run build
 
 # Target Features
 
-- View page
-- Filter by click type
 - Search - More robust
+- Language selector
+- Inline javascript
 - Meta - more relevant meta
 - Update readme
 - Ionic theme
@@ -64,22 +64,12 @@ incorporate more robust and maintainable search functionality, I opted to levera
 static 'master' list of Pokemon. This seemed a reasonable compromise as the rate that
 new Pokemon are released is very low.
 
-## Regional and Gender Variants
-
-There are Pokemon (such as Nidoran and Darmanitan) that feature unique variants
-
 # References
 
 ## [PokeApi](https://github.com/PokeAPI/pokeapi/)
 
 An open-source API for quickly querying Pokemon information.
 
-## [Repokémon](https://github.com/cheeaun/repokemon)
+## [Ionic](https://ionicframework.com/)
 
-The Repokémon repo contains an automatically updated, static list of all Pokémon. We
-leveraged this resource for filtering cases that weren't directly supported by the
-PokeApi.
-
-> Note: Given that we already have an up-to-date and evergreen copy of information
-> locally, I'd normally be inclined to rely solely on that local data. Given the nature
-> of the task, I've opted to use the local source solely for filtering and search.
+A cross-platform development framework supporting React.

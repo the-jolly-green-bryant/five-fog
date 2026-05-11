@@ -34,6 +34,8 @@ export type Pokemon = {
             flavor_text: string
         }[]
     }
+    prev: Pokemon
+    next: Pokemon
 }
 
 export type Kind = {

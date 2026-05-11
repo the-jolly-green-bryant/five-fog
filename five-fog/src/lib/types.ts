@@ -17,6 +17,12 @@ export type Pokemon = {
         latest: string
     }
     species: {
+        names: {
+            name: string
+            language: {
+                name: string
+            }
+        }[]
         color: {
             name: string
         }
@@ -40,4 +46,10 @@ export type Pokemon = {
 
 export type Kind = {
     name: string
+    names: {
+        name: string
+        language: {
+            name: string
+        }
+    }[]
 }

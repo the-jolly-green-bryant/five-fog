@@ -1,6 +1,7 @@
 import './IndexItem.scss'
 import {IonAvatar, IonItem, IonLabel} from '@ionic/react'
 import {usePokemon} from '../lib/api'
+import {useLanguage} from '../lib/language'
 
 interface ContainerProps {
     name: string;
@@ -9,9 +10,10 @@ interface ContainerProps {
 const DEFAULT_IMAGE = 'https://placehold.co/400'
 
 const IndexItem: React.FC<ContainerProps> = ({name}) => {
+    const {language} = useLanguage()
     const {pokemon, loading} = usePokemon(name)
     const display = !loading && pokemon ? {
-        name: pokemon.name,
+        name: pokemon.species.names.find(i => i.language.name == language)?.name,
         image: pokemon.sprites.other['official-artwork'].front_default || DEFAULT_IMAGE,
         alt: `Official artwork for the Pokemon ${pokemon.name}`
     } : {
@@ -21,7 +23,7 @@ const IndexItem: React.FC<ContainerProps> = ({name}) => {
     }
 
     return (
-        <IonItem detail={true} href={`/pokemon/${display.name}`}>
+        <IonItem detail={true} href={`/pokemon/${pokemon?.name}`}>
             <IonAvatar style={{backgroundColor: pokemon?.species.color.name ?? 'transparent'}}>
                 <img alt={display.alt} src={display.image}/>
             </IonAvatar>

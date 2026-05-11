@@ -1,6 +1,7 @@
 import {
     IonAvatar,
     IonContent,
+    IonHeader,
     IonItem,
     IonLabel,
     IonList,
@@ -8,12 +9,32 @@ import {
     IonMenu,
     IonMenuToggle,
     IonNote,
+    IonSelect,
+    IonSelectOption,
 } from '@ionic/react'
 
 import {useLocation} from 'react-router-dom'
 import './Menu.scss'
 import {useListKinds} from '../lib/api'
 import KindItem from './KindItem'
+import {LanguageCode, LANGUAGES, useLanguage} from '../lib/language'
+
+const LanguageSelector = () => {
+    const {language, setLanguage} = useLanguage()
+
+    return (
+        <IonSelect
+            value={language}
+            onIonChange={event => setLanguage(event.detail.value as LanguageCode)}
+        >
+            {LANGUAGES.map(code => (
+                <IonSelectOption key={code} value={code}>
+                    {code.toUpperCase()}
+                </IonSelectOption>
+            ))}
+        </IonSelect>
+    )
+}
 
 const Menu: React.FC = () => {
     const location = useLocation()
@@ -21,6 +42,10 @@ const Menu: React.FC = () => {
 
     return (
         <IonMenu contentId="main" type="overlay">
+            <IonHeader>
+                {LanguageSelector()}
+            </IonHeader>
+
             <IonContent>
                 <IonList id="inbox-list">
                     <IonListHeader>Five Fog</IonListHeader>

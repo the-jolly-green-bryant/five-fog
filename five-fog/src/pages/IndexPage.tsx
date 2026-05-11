@@ -21,7 +21,6 @@ const IndexPage: React.FC<{ kind?: string }> = ({kind}) => {
     // TODO - Better ways to handle this switch.
     const allPokemon = useListPokemon({search})
     const typedPokemon = usePokemonByType({name: kind ?? 'fire', search})
-    console.log('kind', JSON.stringify(kind))
     const {list, loading, loadMore} = kind ? typedPokemon : allPokemon
 
     const onSearch = (event: Event) => {

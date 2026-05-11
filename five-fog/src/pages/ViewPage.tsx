@@ -16,6 +16,7 @@ import {useParams} from 'react-router'
 import {usePokemon} from '../lib/api'
 import {Pokemon} from '../lib/types'
 import {chevronBack, chevronForward} from 'ionicons/icons'
+import {useLanguage} from '../lib/language'
 
 export type ViewPageProps = {
     staticData?: {
@@ -26,7 +27,7 @@ export type ViewPageProps = {
 }
 
 const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
-
+    const {language} = useLanguage()
     const {name} = useParams<{ name: string; }>()
     const use = usePokemon(name)
     const {pokemon} = staticData ?? use
@@ -34,21 +35,21 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
     return (
         <>
             {pokemon && <>
-                <title>{`${pokemon.name} | ${pokemon?.species.genera.find(k => k.language.name == 'en')?.genus} | Five Fog Pokédex`}</title>
+                <title>{`${pokemon.name} | ${pokemon?.species.genera.find(k => k.language.name == language)?.genus} | Five Fog Pokédex`}</title>
 
                 <meta
                     name="description"
-                    content={`${pokemon.name} - ${pokemon.species.flavor_text_entries.filter(k => k.language.name == 'en').at(0)?.flavor_text} - Pokémon details, stats, types, and information.`}
+                    content={`${pokemon.name} - ${pokemon.species.flavor_text_entries.filter(k => k.language.name == language).at(0)?.flavor_text} - Pokémon details, stats, types, and information.`}
                 />
 
                 <meta
                     property="og:title"
-                    content={`${pokemon.name} | ${pokemon?.species.genera.find(k => k.language.name == 'en')?.genus} | Five Fog Pokédex`}
+                    content={`${pokemon.name} | ${pokemon?.species.genera.find(k => k.language.name == language)?.genus} | Five Fog Pokédex`}
                 />
 
                 <meta
                     property="og:description"
-                    content={`${pokemon.name} - ${pokemon.species.flavor_text_entries.filter(k => k.language.name == 'en').at(0)?.flavor_text} - Pokémon details, stats, types, and information.`}
+                    content={`${pokemon.name} - ${pokemon.species.flavor_text_entries.filter(k => k.language.name == language).at(0)?.flavor_text} - Pokémon details, stats, types, and information.`}
                 />
 
                 <link
@@ -69,7 +70,7 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
                             <IonButton href="/">home</IonButton>
                         </IonButtons>
 
-                        <IonTitle>{name}</IonTitle>
+                        <IonTitle>{pokemon?.species.names.find(i => i.language.name == language)?.name ?? name}</IonTitle>
 
                         <IonButtons slot="end">
                             <IonButton href={`/pokemon/${pokemon?.prev.name}`}>
@@ -85,19 +86,20 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
                 <IonContent fullscreen>
                     <IonItem detail={false}>
                         <IonAvatar style={{backgroundColor: pokemon?.species.color.name ?? 'transparent'}}>
-                            <img alt={`official artwork for the pokemon ${pokemon?.name ?? name}`}
-                                 src={pokemon?.sprites.other['official-artwork'].front_default ?? 'https://placehold.co/400'}/>
+                            <img
+                                alt={`official artwork for the pokemon ${pokemon?.species.names.find(i => i.language.name == language)?.name ?? name}`}
+                                src={pokemon?.sprites.other['official-artwork'].front_default ?? 'https://placehold.co/400'}/>
                         </IonAvatar>
 
                         <IonLabel>
-                            <h1>{pokemon?.name ?? name}</h1>
-                            <p>#{pokemon?.id ?? '??'} - {pokemon?.species.genera.find(k => k.language.name == 'en')?.genus ?? '??'}</p>
+                            <h1>{pokemon?.species.names.find(i => i.language.name == language)?.name ?? name}</h1>
+                            <p>#{pokemon?.id ?? '??'} - {pokemon?.species.genera.find(k => k.language.name == language)?.genus ?? '??'}</p>
                         </IonLabel>
                     </IonItem>
 
                     {pokemon && (
                         <IonItem>
-                            <p>{pokemon.species.flavor_text_entries.filter(k => k.language.name == 'en').at(0)?.flavor_text}</p>
+                            <p>{pokemon.species.flavor_text_entries.filter(k => k.language.name == language).at(0)?.flavor_text}</p>
                         </IonItem>
                     )}
 

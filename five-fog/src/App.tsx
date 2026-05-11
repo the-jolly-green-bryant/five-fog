@@ -35,6 +35,7 @@ import IndexPage from './pages/IndexPage'
 import ViewPage, {ViewPageProps} from './pages/ViewPage'
 import {MemoryRouter} from 'react-router'
 import {HelmetProvider} from 'react-helmet-async'
+import {LanguageProvider} from './lib/language'
 
 setupIonicReact()
 
@@ -46,30 +47,32 @@ const App: React.FC<{
     initialData?: unknown
 }> = ({initialUrl, initialData}) => (
     <HelmetProvider>
-        <IonApp>
-            <Router {...(isServer ? {initialEntries: [initialUrl ?? '/']} : {})}>
-                <IonSplitPane contentId="main">
-                    <Menu/>
-                    <IonRouterOutlet id="main">
-                        <Route path="/" exact={true}>
-                            <IndexPage/>
-                        </Route>
+        <LanguageProvider>
+            <IonApp>
+                <Router {...(isServer ? {initialEntries: [initialUrl ?? '/']} : {})}>
+                    <IonSplitPane contentId="main">
+                        <Menu/>
+                        <IonRouterOutlet id="main">
+                            <Route path="/" exact={true}>
+                                <IndexPage/>
+                            </Route>
 
-                        <Route path="/pokemon/:name" exact={true}>
-                            <ViewPage staticData={initialData as ViewPageProps['staticData']}/>
-                        </Route>
+                            <Route path="/pokemon/:name" exact={true}>
+                                <ViewPage staticData={initialData as ViewPageProps['staticData']}/>
+                            </Route>
 
-                        <Route
-                            path="/type/:kind"
-                            exact
-                            render={({match}) => (
-                                <IndexPage kind={match.params.kind}/>
-                            )}
-                        />
-                    </IonRouterOutlet>
-                </IonSplitPane>
-            </Router>
-        </IonApp>
+                            <Route
+                                path="/type/:kind"
+                                exact
+                                render={({match}) => (
+                                    <IndexPage kind={match.params.kind}/>
+                                )}
+                            />
+                        </IonRouterOutlet>
+                    </IonSplitPane>
+                </Router>
+            </IonApp>
+        </LanguageProvider>
     </HelmetProvider>
 )
 

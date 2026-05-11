@@ -13,6 +13,7 @@ export const useListPokemon = ({search = ''}: { search: string }) => {
     const loading = useRef(false)
     const limit = 20
 
+    // TODO - Search does not account for language.
     const normalizedSearch = search.trim().toLowerCase()
     const fuse = new Fuse(POKEMON_LIST, {
         keys: ['name'],

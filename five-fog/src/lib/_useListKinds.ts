@@ -22,8 +22,20 @@ export const useListKinds = () => {
                 return
             }
 
-            const data = await response.json()
-            setList(data.results)
+            const data: { results: { name: string, url: string }[] } = await response.json()
+            const detailed = await Promise.all(
+                data.results.map(async item => {
+                    const response = await fetch(item.url)
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch ${item.name}`)
+                    }
+
+                    return response.json()
+                })
+            )
+
+            setList(detailed)
             setLoading(false)
         }
 

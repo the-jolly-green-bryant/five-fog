@@ -28,10 +28,7 @@ pnpm run build
 
 # Target Features
 
-- Language selector
 - Inline javascript
-- Meta - more relevant meta
-- Clear console logs
 - Update readme
 - Ionic theme
 - Memoisation on pokemon call
@@ -50,6 +47,12 @@ pnpm run build
     - caching api and image requests
     - full static rendering
     - first-paint
+- Localization
+    - Localization to url param
+    - Localize all text
+    - Localize meta
+    - Search by localized name
+    - Fallback to English
 
 # Compromises
 
@@ -72,6 +75,13 @@ The provided API does not feature any significant form of search or filtering. T
 incorporate more robust and maintainable search functionality, I opted to leverage a
 static 'master' list of Pokemon. This seemed a reasonable compromise as the rate that
 new Pokemon are released is very low.
+
+## Localization
+
+Given the availability of localized labels, it was tempting to surface a language
+selector. The localization feature is more of a sampler, it does not contain full
+translations for the app, just what was readily available. Given time, I'd also add a
+fallback to English, as there is not always a translation for each language.
 
 # References
 

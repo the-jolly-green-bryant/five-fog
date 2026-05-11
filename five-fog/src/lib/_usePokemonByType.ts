@@ -1,5 +1,6 @@
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import POKEMON_LIST from '../index/master.json'
+import {Pokemon} from './types'
 
 // Since we're utilizing the static list of Pokemon for search and filtering, we're
 //  doing a little bit of hoodoo here to emulate an API integration.
@@ -12,7 +13,7 @@ export const usePokemonByType = ({name, search = ''}: { name: string, search: st
 
     const normalizedSearch = search.trim().toLowerCase()
 
-    console.log('name', name)
+    const _search = (p: { pokemon: Pokemon }) => p.pokemon.name.toLowerCase().startsWith(normalizedSearch)
 
     const _loadMore = async () => {
         if (loading.current) {
@@ -26,17 +27,18 @@ export const usePokemonByType = ({name, search = ''}: { name: string, search: st
         )
 
         const data = await response.json()
+        console.log('data', data)
 
-        setList(data.pokemon.map((k: { pokemon: typeof POKEMON_LIST[0] }) => k.pokemon))
+        setList(data.pokemon.filter(_search).map((k: { pokemon: typeof POKEMON_LIST[0] }) => k.pokemon))
         loading.current = false
     }
 
-    const loadMore = useCallback(_loadMore, [])
+    const loadMore = () => _loadMore()
 
     useEffect(() => {
         setList([])
-        void loadMore()
-    }, [normalizedSearch, name])
+        void _loadMore()
+    }, [normalizedSearch, name, search])
 
     return {
         list, loading: loading.current, error, loadMore,

@@ -14,32 +14,37 @@ export const useListPokemon = ({search = ''}: { search: string }) => {
 
     const normalizedSearch = search.trim().toLowerCase()
 
-    const _loadMore = async () => {
-        if (next === null || loading.current) {
+    const _loadMore = async (offset: number) => {
+        if (offset === null || loading.current) {
             return
         }
 
         loading.current = true
         setError(null)
+        console.log('normalizedSearch', normalizedSearch, 'offset', offset)
         const data = POKEMON_LIST.filter(
             i => i.name.toLowerCase().startsWith(normalizedSearch)
-        ).slice(next, next + limit)
+        ).slice(offset, offset + limit)
 
-        setNext(data.length == limit ? next + limit : null)
+        setNext(data.length == limit ? offset + limit : null)
         setList((previous) => [
             ...previous,
             ...data,
         ])
+        console.log('data', data)
         loading.current = false
     }
 
-    const loadMore = useCallback(_loadMore, [next])
+    const loadMore = useCallback(async () => {
+        if (next === null) return
+        await _loadMore(next)
+    }, [next, _loadMore])
 
     useEffect(() => {
         setList([])
         setNext(0)
-        void loadMore()
-    }, [normalizedSearch])
+        void _loadMore(0)
+    }, [search, normalizedSearch])
 
     return {
         list, loading: loading.current, error, loadMore,

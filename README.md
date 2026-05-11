@@ -32,8 +32,10 @@ pnpm run build
 - Language selector
 - Inline javascript
 - Meta - more relevant meta
+- Clear console logs
 - Update readme
 - Ionic theme
+- Memoisation on pokemon call
 
 # Topics To Discuss
 

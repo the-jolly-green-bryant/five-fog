@@ -1,22 +1,157 @@
 # five-fog
 
-Sample Ionic React Frontend w/ Static Page Rendering &amp; CI/CD
+A cross-platform Pokédex built with Ionic React, featuring static page rendering, fuzzy
+search, localization support, and automated CI/CD deployment.
 
-Demos available here:
+## Live Demos
 
-- [Website](https://five-fog.bryantjames.com/)
-- [Android App](https://github.com/the-jolly-green-bryant/five-fog/releases)
+- Website: https://five-fog.bryantjames.com
+- Android APK: https://github.com/the-jolly-green-bryant/five-fog/releases
+- Source Repository: https://github.com/the-jolly-green-bryant/five-fog
 
-# Usage
+---
 
-## Initial Setup
+# Project Goals
+
+This project was intentionally scoped as a small but production-minded frontend exercise
+built around the PokéAPI.
+
+The goal was not just to satisfy the assignment requirements, but to demonstrate the
+broad array of my competencies, including:
+
+- end-to-end product thinking
+- maintainable frontend architecture
+- performance considerations
+- cross-platform delivery
+- CI/CD automation
+- pragmatic engineering tradeoffs under time constraints
+
+---
+
+# Core Driving Considerations
+
+Rather than treating this as a simple API exercise, I approached the project around a
+few larger architectural and product goals that influenced most implementation
+decisions.
+
+## Strong Search Experience
+
+The PokéAPI itself does not provide especially rich search functionality, so I treated
+search as a first-class feature rather than a simple text filter.
+
+This influenced:
+
+- maintaining a local indexed Pokémon dataset
+- implementing fuzzy matching with Fuse.js
+- reducing dependence on live API filtering
+- balancing responsiveness with simplicity
+
+The goal was to create a search experience that feels fast and forgiving rather than
+strictly API-driven.
+
+## Cross-Platform Delivery
+
+I wanted the project to demonstrate portability beyond a traditional web-only React
+application.
+
+The application is built with Ionic React and Capacitor, allowing the same frontend
+architecture to target:
+
+- web
+- mobile web
+- Android APK deployment
+
+This also influenced UI/layout decisions and dependency selection early in the project.
+
+## Static Rendering & SEO
+
+One of the more interesting constraints was balancing a client-side React application
+with SEO and first-paint performance considerations.
+
+The production build statically renders over 1300 Pokémon pages, generating:
+
+- prerendered HTML
+- metadata
+- OpenGraph tags
+- sitemap entries
+
+This significantly improves:
+
+- search engine indexing
+- social previews
+- perceived performance
+- non-JavaScript rendering behavior
+
+It also created interesting challenges around Ionic styling and hydration.
+
+## Localization
+
+PokéAPI exposes a surprising amount of localization data, so I wanted to explore how
+language selection could shape the application architecture.
+
+The current implementation includes:
+
+- shared language state
+- localized Pokémon naming
+- runtime language switching
+
+Given more time, I would expand this into:
+
+- localized routes
+- localized metadata
+- fallback language handling
+- localized search indexing
+
+---
+
+# Technical Stack
+
+## Frontend
+
+- React
+- Ionic
+- TypeScript
+
+## Tooling
+
+- pnpm
+- Capacitor
+- GitHub Actions
+- Cloudflare Pages
+
+## Mobile
+
+The Android APK is generated using Capacitor and Gradle.
+
+This implementation is currently closer to a deployment proof-of-concept than a fully
+polished mobile application, but demonstrates the portability of the frontend
+architecture.
+
+---
+
+# CI/CD
+
+GitHub Actions automatically:
+
+- builds the web application
+- statically renders pages
+- generates Android APKs
+- deploys the website to Cloudflare Pages
+- uploads APK artifacts
+- creates GitHub Releases for tagged versions
+
+---
+
+# Local Development
+
+## Install
 
 ```shell
 pnpm install
 pnpm exec husky init
 ```
 
-## Running Dev Server
+## Run Development Server
 
 ```shell
 pnpm run dev
@@ -28,78 +163,96 @@ pnpm run dev
 pnpm run build
 ```
 
-> Note: Production builds should be run through pnpm to ensure that all static files
-> are included with the deliverable.
+## Build Android APK
 
-# Topics To Discuss
+```shell
+pnpm run build:apk
+```
 
-- Main Driving Features
-    - Strong search functionality
-    - cross platform
-    - static website rendering (automatically builds 1370 pages)
-    - Language selection
-- Approach, showcasing that end-to-end thinking, limited testing in lieu of features
-- Initial setups, planning good practice early
-- Framework selection
-- Devops selection
-- Going through considerations
-    - API - A little cheating, knowing static rendering.
+---
 
-# Would Do
+# Tradeoffs & Constraints
 
-- Usability issues
-    - search as url param
-    - caching api and image requests
-    - full static rendering
-    - first-paint
-- Localization
-    - Localization to url param
-    - Localize all text
-    - Localize meta
-    - Search by localized name
-    - Fallback to English
-- Content corrections
-    - Mega evolutions have the correct id for API, but nopt the correct numerical representation as it apepars in the
-      game
-- Android app
-    - There are stylign consideraitons (such as status bar overlapping app) that need to be addressed
-    - This is very much jsut a proof of concept (it can compile into an apk) than an actual ready product
+## Testing
 
-# Compromises
+In a production environment, I would normally prioritize:
 
-## Unit Testing
+- stronger automated testing
+- integration coverage
+- potentially test-driven workflows
 
-Typically, with a more real-world project I would have a strong foundation of testing,
-and would give strong consideration to test-driven development. Given the nature of this
-project and the simplicity of features, I opted to forgo testing in lieu of greater
-feature depth.
+Given the intentionally constrained timeline for this exercise, I chose to prioritize:
 
-## Error Handling on PokeAPI
+- feature completeness
+- architecture
+- deployment pipeline
 
-As the project got long-in-the-ear, I opted to jettison error handling on PokeAPI calls
-and naively assume they return valid results. This is a fairly safe assumption, but
-obviously we'd prefer proper error handling.
+over deep test coverage.
 
-## Search
+## API Assumptions
 
-The provided API does not feature any significant form of search or filtering. To
-incorporate more robust and maintainable search functionality, I opted to leverage a
-static 'master' list of Pokemon. This seemed a reasonable compromise as the rate that
-new Pokemon are released is very low.
+Some PokéAPI calls intentionally assume valid responses rather than implementing
+exhaustive defensive handling.
 
-## Localization
+For a production application, I would expand:
 
-Given the availability of localized labels, it was tempting to surface a language
-selector. The localization feature is more of a sampler, it does not contain full
-translations for the app, just what was readily available. Given time, I'd also add a
-fallback to English, as there is not always a translation for each language.
+- retry handling
+- caching strategy
+- API fallbacks
+- loading state recovery
+- offline behavior
+
+## Performance
+
+Several optimizations were intentionally explored:
+
+- static prerendering
+- local caching
+- fuzzy search indexing
+- critical CSS rendering
+- reduced dependency on live API search
+
+There are still opportunities for further optimization, particularly around:
+
+- image caching
+- API response persistence
+- full route-level static generation
+- more aggressive code splitting
+
+---
+
+# Assignment Notes
+
+The original assignment requested:
+
+- React app
+- Pokémon API integration
+- card display
+- filtering
+- pagination
+
+This implementation intentionally expanded beyond those requirements to demonstrate
+broader engineering considerations such as:
+
+- SEO
+- CI/CD
+- mobile deployment
+- localization
+- rendering strategy
+- platform portability
+
+---
 
 # References
 
-## [PokeApi](https://github.com/PokeAPI/pokeapi/)
+## PokeAPI
 
-An open-source API for quickly querying Pokemon information.
+https://github.com/PokeAPI/pokeapi/
 
-## [Ionic](https://ionicframework.com/)
+An open-source API for querying Pokémon information.
 
-A cross-platform development framework supporting React.
+## Ionic
+
+https://ionicframework.com/
+
+Cross-platform application framework for React and mobile deployment.

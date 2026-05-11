@@ -28,7 +28,6 @@ pnpm run build
 
 # Target Features
 
-- Search - More robust
 - Language selector
 - Inline javascript
 - Meta - more relevant meta
@@ -43,6 +42,14 @@ pnpm run build
 - Initial setups, planning good practice early
 - Framework selection
 - API - A little cheating, knowing static rendering.
+
+# Would Do
+
+- Usability issues
+    - search as url param
+    - caching api and image requests
+    - full static rendering
+    - first-paint
 
 # Compromises
 

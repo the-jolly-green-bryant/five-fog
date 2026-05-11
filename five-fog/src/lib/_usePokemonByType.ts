@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react'
 import POKEMON_LIST from '../index/master.json'
-import {Pokemon} from './types'
+import Fuse from 'fuse.js'
 
 // Since we're utilizing the static list of Pokemon for search and filtering, we're
 //  doing a little bit of hoodoo here to emulate an API integration.
@@ -13,8 +13,6 @@ export const usePokemonByType = ({name, search = ''}: { name: string, search: st
 
     const normalizedSearch = search.trim().toLowerCase()
 
-    const _search = (p: { pokemon: Pokemon }) => p.pokemon.name.toLowerCase().startsWith(normalizedSearch)
-
     const _loadMore = async () => {
         if (loading.current) {
             return
@@ -26,10 +24,17 @@ export const usePokemonByType = ({name, search = ''}: { name: string, search: st
             `https://pokeapi.co/api/v2/type/${name}`
         )
 
-        const data = await response.json()
-        console.log('data', data)
+        const data: (typeof POKEMON_LIST) = (await response.json()).pokemon.map((k: {
+            pokemon: typeof POKEMON_LIST[0]
+        }): typeof POKEMON_LIST[0] => k.pokemon)
+        const fuse = new Fuse(data, {
+            keys: ['name'],
+            threshold: 0.35,
+            ignoreLocation: true,
+            minMatchCharLength: 2,
+        })
 
-        setList(data.pokemon.filter(_search).map((k: { pokemon: typeof POKEMON_LIST[0] }) => k.pokemon))
+        setList(normalizedSearch ? fuse.search(normalizedSearch).map(result => result.item) : data)
         loading.current = false
     }
 

@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 import POKEMON_LIST from '../index/master.json'
+import Fuse from 'fuse.js'
 
 // Since we're utilizing the static list of Pokemon for search and filtering, we're
 //  doing a little bit of hoodoo here to emulate an API integration.
@@ -13,6 +14,12 @@ export const useListPokemon = ({search = ''}: { search: string }) => {
     const limit = 20
 
     const normalizedSearch = search.trim().toLowerCase()
+    const fuse = new Fuse(POKEMON_LIST, {
+        keys: ['name'],
+        threshold: 0.35,
+        ignoreLocation: true,
+        minMatchCharLength: 2,
+    })
 
     const _loadMore = async (offset: number) => {
         if (offset === null || loading.current) {
@@ -21,17 +28,16 @@ export const useListPokemon = ({search = ''}: { search: string }) => {
 
         loading.current = true
         setError(null)
-        console.log('normalizedSearch', normalizedSearch, 'offset', offset)
-        const data = POKEMON_LIST.filter(
-            i => i.name.toLowerCase().startsWith(normalizedSearch)
-        ).slice(offset, offset + limit)
+        const data = fuse
+            .search(normalizedSearch)
+            .map(result => result.item)
+            .slice(offset, offset + limit)
 
         setNext(data.length == limit ? offset + limit : null)
         setList((previous) => [
             ...previous,
             ...data,
         ])
-        console.log('data', data)
         loading.current = false
     }
 

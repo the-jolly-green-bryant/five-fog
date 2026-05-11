@@ -34,21 +34,21 @@ const ViewPage: React.FC<ViewPageProps> = ({staticData}) => {
     return (
         <>
             {pokemon && <>
-                <title>{`${pokemon.name} | Five Fog Pokédex`}</title>
+                <title>{`${pokemon.name} | ${pokemon?.species.genera.find(k => k.language.name == 'en')?.genus} | Five Fog Pokédex`}</title>
 
                 <meta
                     name="description"
-                    content={`${pokemon.name} Pokémon details, stats, types, and information.`}
+                    content={`${pokemon.name} - ${pokemon.species.flavor_text_entries.filter(k => k.language.name == 'en').at(0)?.flavor_text} - Pokémon details, stats, types, and information.`}
                 />
 
                 <meta
                     property="og:title"
-                    content={`${pokemon.name} | Five Fog Pokédex`}
+                    content={`${pokemon.name} | ${pokemon?.species.genera.find(k => k.language.name == 'en')?.genus} | Five Fog Pokédex`}
                 />
 
                 <meta
                     property="og:description"
-                    content={`${pokemon.name} Pokémon details and information.`}
+                    content={`${pokemon.name} - ${pokemon.species.flavor_text_entries.filter(k => k.language.name == 'en').at(0)?.flavor_text} - Pokémon details, stats, types, and information.`}
                 />
 
                 <link

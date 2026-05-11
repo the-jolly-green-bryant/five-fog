@@ -31,7 +31,6 @@ pnpm run build
 - Inline javascript
 - Update readme
 - Ionic theme
-- Memoisation on pokemon call
 
 # Topics To Discuss
 
